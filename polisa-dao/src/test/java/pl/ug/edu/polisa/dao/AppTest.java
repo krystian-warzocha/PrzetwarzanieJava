@@ -2,6 +2,7 @@ package pl.ug.edu.polisa.dao;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -46,7 +47,7 @@ public class AppTest
         assertTrue( true );
     }
     
-    public void testDao() {
+    public void testDao() throws SQLException {
     	PolicyEntity policy = new PolicyEntity();
     	policy.setId(new Long(1));
     	policyDao.delete(policy);    
@@ -54,9 +55,48 @@ public class AppTest
     
     public void testPolicyCreate() throws SQLException {
     	PolicyEntity policy = new PolicyEntity();
-    	//policy.setId(1L);
     	policy.setPolicyNumber("numer polisy");
     	policy.setPremium(BigDecimal.valueOf(100.0));
+    	policy.setData_od(new Date());
+    	policy.setData_do(new Date());
     	policyDao.create(policy);
+    	
+    	PolicyEntity actual = policyDao.retrieve(policy.getId());
+    	assertEquals(policy.getPolicyNumber(), actual.getPolicyNumber());
+    	assertEquals(policy.getPremium().doubleValue(), actual.getPremium().doubleValue());
+    	assertEquals(policy.getData_od(), actual.getData_od());
+    	assertEquals(policy.getData_do(), actual.getData_do());
+    }
+    
+    public void testPolicyUpdate() throws SQLException {
+    	PolicyEntity policy = new PolicyEntity();
+    	policy.setPolicyNumber("numer polisy");
+    	policy.setPremium(BigDecimal.valueOf(100.0));
+    	policy.setData_od(new Date());
+    	policy.setData_do(new Date());
+    	policyDao.create(policy);
+    	
+    	policy.setPolicyNumber("nowy numer polisy");
+    	policy.setPremium(BigDecimal.valueOf(200.0));
+    	policyDao.update(policy);
+    	
+    	PolicyEntity actual = policyDao.retrieve(policy.getId());
+    	assertEquals(policy.getPolicyNumber(), actual.getPolicyNumber());
+    	assertEquals(policy.getPremium().doubleValue(), actual.getPremium().doubleValue());
+    	assertEquals(policy.getData_od(), actual.getData_od());
+    	assertEquals(policy.getData_do(), actual.getData_do());
+    }
+    
+    public void testPolicyDelete() throws SQLException {
+    	PolicyEntity policy = new PolicyEntity();
+    	policy.setPolicyNumber("numer polisy");
+    	policy.setPremium(BigDecimal.valueOf(100.0));
+    	policy.setData_od(new Date());
+    	policy.setData_do(new Date());
+    	policyDao.create(policy);
+    	
+    	policyDao.delete(policy);
+    	
+    	assertNull(policyDao.retrieve(policy.getId()));
     }
 }

@@ -15,7 +15,7 @@ public class SqlLiteExample {
 	
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
-		return DriverManager.getConnection("jdbc:sqlite:/home/studpoz/kwarzocha/mydatabase.db");
+		return DriverManager.getConnection("jdbc:sqlite:C:/Users/Krystian/git/PrzetwarzanieJava/mydatabase.db");
 	}
 	
 	public void createDatabase() throws ClassNotFoundException, SQLException {

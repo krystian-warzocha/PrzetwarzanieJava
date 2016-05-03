@@ -1,6 +1,7 @@
 package pl.ug.edu.polisa.dao.core;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.apache.commons.logging.Log;
@@ -38,19 +39,21 @@ public abstract class BaseCRUDDao <T extends BaseEntity> {
 	 * @param id
 	 * @return
 	 */
-	public abstract T retrieve(Long id);
+	public abstract T retrieve(Long id) throws SQLException;
 	
 	/**
 	 * Aktualizacja obiektu.
 	 * @param object
+	 * @throws SQLException 
 	 */
-	public abstract void update(T object);
+	public abstract void update(T object) throws SQLException;
 	
 	/**
 	 * Usuniecie obiektu. 
 	 * @param object
+	 * @throws SQLException 
 	 */
-	public void delete(T object) {
+	public void delete(T object) throws SQLException {
 		if(object == null) {
 			return;
 		}
@@ -61,15 +64,17 @@ public abstract class BaseCRUDDao <T extends BaseEntity> {
 		String tableName = TableNameReader.read(object);
 		log.info("table = " + tableName);
 		
+//		if(tableName != null) {
+//			StringBuilder sb2 = new StringBuilder();
+//			sb2.append("DELETE TABLE ").append(tableName).append(" WHERE id=").append(object.getId());
+//			log.info(sb2);
+//		}
+		
 		if(tableName != null) {
-			StringBuilder sb2 = new StringBuilder();
-			sb2.append("DELETE TABLE ").append(tableName).append(" WHERE id=").append(object.getId());
-			log.info(sb2);
+			PreparedStatement ps = c.prepareStatement("DELETE FROM " + tableName + " WHERE id = ?");
+			ps.setLong(1, object.getId());
+			int row = ps.executeUpdate();
+			log.info("Usunięto " + row + " rekordów tabeli " + tableName);
 		}
-		
-//		PreparedStatement ps = c.prepareStatement("DELETE FROM " + table + " WHERE id = ?");
-//		ps.setLong(1, object.);
-		
-		//FIXME do zrobienia odpalenie na bazie
 	}
 }
