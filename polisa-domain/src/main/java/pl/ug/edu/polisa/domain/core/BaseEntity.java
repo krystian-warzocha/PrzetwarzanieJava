@@ -5,6 +5,7 @@ public abstract class BaseEntity {
 	/**
 	 * Identyfikator encji.
 	 */
+	@Column(columnName="id")
 	private Long id;
 
 	public Long getId() {

@@ -3,6 +3,9 @@ package pl.ug.edu.polisa.dao.core;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +35,13 @@ public abstract class BaseCRUDDao <T extends BaseEntity> {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public abstract T create(T object) throws SQLException;
+	public T create(T object) throws SQLException {
+		Map<String, String> columns = TableNameReader.readColumns(object);
+		for(Entry<String,String> column : columns.entrySet()) {
+			
+		}
+		return null;
+	}
 
 	/**
 	 * Metoda zwraca obiekt.

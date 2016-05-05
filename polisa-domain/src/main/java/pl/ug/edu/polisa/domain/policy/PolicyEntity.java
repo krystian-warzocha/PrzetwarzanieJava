@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import pl.ug.edu.polisa.domain.core.BaseEntity;
+import pl.ug.edu.polisa.domain.core.Column;
 import pl.ug.edu.polisa.domain.core.Entity;
 
 /**
@@ -14,10 +15,17 @@ import pl.ug.edu.polisa.domain.core.Entity;
  */
 @Entity(tableName = "POLISA")
 public class PolicyEntity extends BaseEntity {
-	
+
+	@Column(columnName="policynumber")
 	private String policyNumber;
+
+	@Column(columnName="premium")
 	private BigDecimal premium; // składka
+	
+	@Column(columnName="data_od")
 	private Date data_od;
+	
+	@Column(columnName="data_do")
 	private Date data_do;
 	
 	public String getPolicyNumber() {
